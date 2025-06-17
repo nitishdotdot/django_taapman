@@ -1,0 +1,196 @@
+{% load static %} 
+<html>
+    <head>
+        <title>Homepage</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+    </head>
+    <body style="background-color:rgb(204, 242, 255)">
+       <script src="{% static 'script.js' %}"></script>
+        <div class="display-3 text text-primary d-flex justify-content-center">Temperature app.Search by city country or place
+        </div>
+        <div class="d-flex justify-content-end" style="gap:5px;">
+            <a class="btn btn-success" href="{% url 'about-me' %}">AboutMe</a>
+            <a class="btn btn-success" href="{% url 'about-developer' %}">AboutDeveloper</a>
+            <a class="btn btn-danger" href="{% url 'logout' %}">Logout</a>
+        </div>
+         <div class="container d-flex justify-content-center align-items-center vh-50">
+        <form method="post" action="{% url 'index' %}">
+            {% csrf_token %}
+            <div class="input-group">
+            <input class="rounded" type="text" name="place" placeholder="Search...">
+            <input class="btn btn-success rounded"type="submit" value="Search">
+            </div>
+        </form>
+        </div>
+               {% if dataz  %}
+             <div class="alert alert-info text-center">
+            The data has been successfully retrieved and is displayed below
+             </div>
+        <div class="list-container" style="background-color:rgb(236, 177, 209)">
+             <dl class="row">
+                 <dt class="col-sm-3">latitude:</dt><dd class="col-sm-9">{{ dataz.lat }}</dd>
+                 <dt class="col-sm-3">longitude:</dt><dd class="col-sm-9">{{ dataz.lon }}</dd>
+                 <dt class="col-sm-3">full_address:</dt><dd class="col-sm-9">{{ dataz.full_address }}</dd>
+                 <dt class="col-sm-3">name:</dt><dd class="col-sm-9">{{ dataz.name }}</dd>
+                 <dt class="col-sm-3">address_type:</dt><dd class="col-sm-9">{{ dataz.address_type }}</dd>
+                 <dt class="col-sm-3">country:</dt><dd class="col-sm-9">{{ dataz.country }}</dd>
+                 <dt class="col-sm-3">population:</dt><dd class="col-sm-9">{{ dataz.population }}</dd>
+                 <dt class="col-sm-3">capital:</dt><dd class="col-sm-9">{{ dataz.capital }}</dd>
+                 <dt class="col-sm-3">land_locked:</dt><dd  class="col-sm-9">{{ dataz.land_locked }}</dd>
+                 <dt class="col-sm-3">about_flag:</dt><dd  class="col-sm-9">{{ dataz.about_flag }}</dd>
+                  </dl>
+             
+               <h5>Languages</h5>
+                  <dl class="col">
+                 {% for i,j in languages.items %}
+                 <dt  class="col-sm-3">{{j}}</dt>
+                  {% endfor %}
+                  </dl class="col">
+                 <h5>Currencies</h5>
+                 <dl>
+                 {% for code,info in currency.items %}
+                 <dt  class="col-sm-3">{{code}}</dt>
+                 <dd lass="col-sm-9">{{info.symbol}}-{{info.name}}<dd>
+                 {% endfor %}
+                 </dl>
+                </div>
+            
+                 <div class="text text-primary justify-content-center d-flex">
+                    Below is the temperature from today upto 1 week
+                 </div>
+                 <div class="d-flex container-fluid">
+  <button class="btn btn-outline-success me-2" onclick="moveleft()">&lt;</button>
+    <div class="d-flex px-1" id="mytable" style="gap:10px;overflow-x:auto;">
+<div>
+     <table border="1">
+                            <tr>
+                               <th>Date</th>
+                               <th>Time</th>
+                               <th>Temperature</th>
+                            </tr>
+                           {% for i,j,k in day1 %}
+                           <tr>
+                               <td class="text-nowrap">{{i}}</td>
+                               <td>{{j}}</td>
+                               <td>{{k}}</td>
+                           </tr>
+                           {% endfor %}
+                        </table>
+                        
+</div>
+<div>
+     <table border="1">
+                            <tr>
+                               <th>Date</th>
+                               <th>Time</th>
+                               <th>Temperature</th>
+                            </tr>
+                           {% for i,j,k in day2 %}
+                           <tr>
+                               <td class="text-nowrap">{{i}}</td>
+                               <td>{{j}}</td>
+                               <td>{{k}}</td>
+                           </tr>
+                           {% endfor %}
+                        </table>
+                        </div>
+<div>
+     <table border="1">
+                            <tr>
+                               <th>Date</th>
+                               <th>Time</th>
+                               <th>Temperature</th>
+                            </tr>
+                           {% for i,j,k in day3 %}
+                           <tr>
+                               <td class="text-nowrap">{{i}}</td>
+                               <td>{{j}}</td>
+                               <td>{{k}}</td>
+                           </tr>
+                           {% endfor %}
+                        </table>
+                        </div>
+<div>
+     <table border="1">
+                            <tr>
+                               <th>Date</th>
+                               <th>Time</th>
+                               <th>Temperature</th>
+                            </tr>
+                           {% for i,j,k in day4 %}
+                           <tr>
+                               <td class="text-nowrap">{{i}}</td>
+                               <td>{{j}}</td>
+                               <td>{{k}}</td>
+                           </tr>
+                           {% endfor %}
+                        </table>
+                        </div>
+<div>
+     <table border="1">
+                            <tr>
+                               <th>Date</th>
+                               <th>Time</th>
+                               <th>Temperature</th>
+                            </tr>
+                           {% for i,j,k in day5 %}
+                           <tr>
+                               <td class="text-nowrap">{{i}}</td>
+                               <td>{{j}}</td>
+                               <td>{{k}}</td>
+                           </tr>
+                           {% endfor %}
+                        </table>
+                        </div>
+<div>
+     <table border="1">
+                            <tr>
+                               <th>Date</th>
+                               <th>Time</th>
+                               <th>Temperature</th>
+                            </tr>
+                           {% for i,j,k in day6 %}
+                           <tr>
+                               <td class="text-nowrap">{{i}}</td>
+                               <td>{{j}}</td>
+                               <td>{{k}}</td>
+                           </tr>
+                           {% endfor %}
+                        </table>
+                        </div>
+<div>
+     <table border="1">
+                            <tr>
+                               <th>Date</th>
+                               <th>Time</th>
+                               <th>Temperature</th>
+                            </tr>
+                           {% for i,j,k in day7 %}
+                           <tr>
+                               <td class="text-nowrap">{{i}}</td>
+                               <td>{{j}}</td>
+                               <td>{{k}}</td>
+                           </tr>
+                           {% endfor %}
+                        </table>
+                        </div>
+      </div>
+     <button onclick="moveright()" class="btn btn-outline-success me-2">&gt;</button>
+     </div>
+  
+             </div>
+             <div style="background-color:rgb(204, 186, 244)">
+                <table class="table table-bordered" style="border:2px solid black">
+                    <tr>
+                        <td>map</td>
+                        <td>coat of arms</td>
+                    </tr>
+                    <td> <img class="img-fluid" src="{{ dataz.flag }}"></td>
+                    <td><img class="img-fluid" src="{{ dataz.coatOfArms }}"></td>
+                </tr>
+                </table>
+            </div>
+            {% endif %}
+       
+    </body>
+</html>
