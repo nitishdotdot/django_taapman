@@ -25,37 +25,37 @@
 ## 📸 Screenshots
 
 ### 🔐 1. Login Page
-![Login Page](assets/screenshot-1.png)
+![Login Page](assets/Screenshot-1.png)
 
 ---
 
 ### 👤 2. About Me Section
-![About Me](assets/screenshot-2.png)
+![About Me](assets/Screenshot-2.png)
 
 ---
 
 ### 👨‍💻 3. About Developer Section
-![About Developer](assets/screenshot-3.png)
+![About Developer](assets/Screenshot-3.png)
 
 ---
 
 ### 🔍 4. Search Box for Location
-![Search Box](assets/screenshot-4.png)
+![Search Box](assets/Screenshot-4.png)
 
 ---
 
 ### 🗺️ 5. Place Details (Country, Capital, etc.)
-![Place Details](assets/screenshot-5.png)
+![Place Details](assets/Screenshot-5.png)
 
 ---
 
 ### 🌡️ 6. Temperature Forecast (24-hour & 7-day)
-![Temperature](assets/screenshot-6.png)
+![Temperature](assets/Screenshot-6.png)
 
 ---
 
 ### 🏳️ 7. Flag and Coat of Arms
-![Flag and Coat of Arms](assets/screenshot-7.png)
+![Flag and Coat of Arms](assets/Screenshot-7.png)
 
 
 ## Technologies Used
