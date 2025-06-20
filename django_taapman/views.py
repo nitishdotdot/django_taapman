@@ -89,7 +89,8 @@ def index(request):
                 return render(request,'index.html')
         else:
             return render(request,'login.html')
-    return render(request,'login')
+    else:
+        return render(request,'login.html')
 def signup(request):
     if request.method=="POST":
         first_name=request.POST.get("f_name")
