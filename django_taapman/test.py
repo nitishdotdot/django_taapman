@@ -1,17 +1,8 @@
 import requests
- 
-headers = {
-            "User-Agent": "MyAppName/1.0 (your@email.com)"
-        }
-lat=68
-lon=95
-url=f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&hourly=temperature_2m"
-response=requests.get(url,headers=headers).json()
-data_time=[]
-temp=[]
-for i in  response['hourly']['time']:
-    data_time.append(i)
-for i in response['hourly']['temperature_2m']:
-    temp.append(i)
-data=zip(data_time,temp)
- 
+import json
+
+country = "nepal"
+url = f"https://api.restcountries.com/countries/v5/names.common/{country}"
+headers1 = {"Authorization": "bearer rc_live_427bccdcde4348aeab5fee0a3887b53e"}
+response = requests.get(url, headers=headers1)
+print(response.json()["data"]["objects"][0]["flag"]["url_png"])
