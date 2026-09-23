@@ -1,23 +1,255 @@
-<html>
-    <head>
-        <title>About Me</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
-    </head>
-    <body style="background-color:rgb(195, 247, 151)">
-    <div class="d-flex flex-column justify-content-center align-items-center container vh-100">
-        <div >
-         <h1 class="text-center bg-success rounded mb-2 text-white">This website shows</h1>
-        </div>
-         <div class="list-group list-group-flush text-center">
-            
-                <div class="bg-primary text-white rounded mb-1">longitude and latitude of a place</div>
-                <div class="bg-primary text-white rounded mb-1">Temperature of a place for Seven days</div>
-                <div class="bg-primary text-white rounded mb-1">Search by city, country or place</div>
-                <div class="bg-primary text-white rounded mb-1">country information like population, capital, languages, currency, etc.</div>
-                <div class="bg-primary text-white rounded mb-1">picture of the country flag</div>
-                <div class="bg-primary text-white rounded mb-1">picture of the coat of arms</div>
-            
-        </div> 
-    </div>
-    </body>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About This Site</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          midnight: '#05060a',
+          charcoal: '#0d0f16',
+          neonblue: '#00e5ff',
+          neonpink: '#ff2ec4',
+          neonred: '#ff2b4d',
+        },
+        fontFamily: {
+          sans: ['Rajdhani', 'sans-serif'],
+          mono: ['Share Tech Mono', 'monospace'],
+        },
+      }
+    }
+  }
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+  html, body { background: #05060a; overflow-x: hidden; }
+
+  #particle-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .content-layer { position: relative; z-index: 1; }
+
+  .neon-border-blue {
+    border: 1px solid rgba(0,229,255,0.4);
+    box-shadow: 0 0 8px rgba(0,229,255,0.25), inset 0 0 12px rgba(0,229,255,0.06);
+  }
+  .neon-border-pink {
+    border: 1px solid rgba(255,46,196,0.4);
+    box-shadow: 0 0 8px rgba(255,46,196,0.25), inset 0 0 12px rgba(255,46,196,0.06);
+  }
+  .neon-text-blue { color: #00e5ff; text-shadow: 0 0 6px rgba(0,229,255,0.8), 0 0 18px rgba(0,229,255,0.4); }
+  .neon-text-pink { color: #ff2ec4; text-shadow: 0 0 6px rgba(255,46,196,0.8), 0 0 18px rgba(255,46,196,0.4); }
+  .neon-text-red  { color: #ff2b4d; text-shadow: 0 0 6px rgba(255,43,77,0.8), 0 0 18px rgba(255,43,77,0.4); }
+
+  .glass-card { background: rgba(13,15,22,0.72); backdrop-filter: blur(10px); }
+
+  .neon-btn {
+    background: transparent;
+    border: 1px solid #00e5ff;
+    color: #00e5ff;
+    text-shadow: 0 0 6px rgba(0,229,255,0.7);
+    box-shadow: 0 0 10px rgba(0,229,255,0.25);
+    transition: all 0.25s ease;
+  }
+  .neon-btn:hover { background: rgba(0,229,255,0.12); box-shadow: 0 0 22px rgba(0,229,255,0.55); }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease, box-shadow 0.7s ease;
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 0 26px rgba(0,229,255,0.18);
+  }
+
+  .step-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: #ff2ec4;
+    text-shadow: 0 0 6px rgba(255,46,196,0.6);
+  }
+</style>
 </head>
+
+<body class="text-gray-200 font-sans min-h-screen">
+
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="content-layer">
+
+    <!-- Nav -->
+    <div class="flex justify-end gap-3 px-6 pt-5 reveal in-view">
+      <a class="neon-btn px-5 py-1.5 rounded-full text-sm tracking-wide" href="{% url 'index' %}">Home</a>
+      <a class="neon-btn px-5 py-1.5 rounded-full text-sm tracking-wide" href="{% url 'about-developer' %}">About&nbsp;Developer</a>
+    </div>
+
+    <!-- Hero -->
+    <div class="text-center pt-10 pb-8 px-4 reveal in-view">
+      <h1 class="text-4xl md:text-5xl font-bold neon-text-blue tracking-wider">DJANGO TAAPMAN // ABOUT</h1>
+      <p class="mt-3 text-sm md:text-base text-cyan-200/60 font-mono">WHAT DJANGO TAAPMAN IS AND HOW IT WORKS</p>
+    </div>
+
+    <!-- What is this site -->
+    <div class="max-w-3xl mx-auto mb-8 px-4 reveal">
+      <div class="glass-card neon-border-blue rounded-2xl p-7">
+        <h2 class="text-xl font-bold neon-text-pink mb-3 tracking-wide">What is Django Taapman?</h2>
+        <p class="text-sm leading-relaxed text-gray-300">
+          Django Taapman is a weather and country-lookup tool. Search any city,
+          country, or place, and the site pulls together live location data —
+          coordinates, population, capital, currency, spoken languages, the national
+          flag — alongside a full 7-day temperature forecast, all in one place.
+        </p>
+        <p class="text-sm leading-relaxed text-gray-300 mt-3">
+          It's built as a personal project to explore combining external APIs with a
+          Django backend, and to experiment with a more animated, futuristic front-end
+          instead of a standard template layout.
+        </p>
+      </div>
+    </div>
+
+    <!-- How it works -->
+    <div class="max-w-3xl mx-auto mb-8 px-4 reveal">
+      <div class="glass-card neon-border-blue rounded-2xl p-7">
+        <h2 class="text-xl font-bold neon-text-pink mb-5 tracking-wide">How It Works</h2>
+
+        <div class="space-y-5">
+          <div class="flex gap-4">
+            <div class="step-num pt-1">01</div>
+            <div>
+              <div class="text-sm font-semibold text-cyan-100">You search a place</div>
+              <div class="text-xs text-gray-400 mt-1">Type in any city, country, or landmark name in the search bar on the homepage.</div>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="step-num pt-1">02</div>
+            <div>
+              <div class="text-sm font-semibold text-cyan-100">The backend fetches live data</div>
+              <div class="text-xs text-gray-400 mt-1">Django queries external geolocation and country-data APIs to gather details about that location.</div>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="step-num pt-1">03</div>
+            <div>
+              <div class="text-sm font-semibold text-cyan-100">Forecast data is pulled</div>
+              <div class="text-xs text-gray-400 mt-1">A weather API returns the next 7 days of temperature data for that exact location.</div>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="step-num pt-1">04</div>
+            <div>
+              <div class="text-sm font-semibold text-cyan-100">Everything renders instantly</div>
+              <div class="text-xs text-gray-400 mt-1">Country details, flag, languages, currencies, and the forecast grid all appear together on the page.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tech stack -->
+    <div class="max-w-3xl mx-auto mb-14 px-4 reveal">
+      <div class="glass-card neon-border-pink rounded-2xl p-7">
+        <h2 class="text-xl font-bold neon-text-blue mb-4 tracking-wide">Built With</h2>
+        <div class="flex flex-wrap gap-2">
+          <span class="neon-border-blue rounded-full px-3 py-1 text-xs font-mono text-cyan-200">Django</span>
+          <span class="neon-border-blue rounded-full px-3 py-1 text-xs font-mono text-cyan-200">Python</span>
+          <span class="neon-border-blue rounded-full px-3 py-1 text-xs font-mono text-cyan-200">Tailwind CSS</span>
+          <span class="neon-border-blue rounded-full px-3 py-1 text-xs font-mono text-cyan-200">Three.js</span>
+          <span class="neon-border-blue rounded-full px-3 py-1 text-xs font-mono text-cyan-200">REST APIs</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+(function () {
+  const canvas = document.getElementById('particle-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 50;
+
+  const PARTICLE_COUNT = 700;
+  const positions = new Float32Array(PARTICLE_COUNT * 3);
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    positions[i * 3] = (Math.random() - 0.5) * 160;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 160;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 100;
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+  const material = new THREE.PointsMaterial({ color: 0x00e5ff, size: 0.6, transparent: true, opacity: 0.75 });
+  const points = new THREE.Points(geometry, material);
+  scene.add(points);
+
+  const gridGeo = new THREE.BufferGeometry();
+  const gridPositions = [];
+  for (let i = -80; i <= 80; i += 16) {
+    gridPositions.push(-80, i, -40, 80, i, -40);
+    gridPositions.push(i, -80, -40, i, 80, -40);
+  }
+  gridGeo.setAttribute('position', new THREE.Float32BufferAttribute(gridPositions, 3));
+  const gridMat = new THREE.LineBasicMaterial({ color: 0xff2ec4, transparent: true, opacity: 0.08 });
+  const gridLines = new THREE.LineSegments(gridGeo, gridMat);
+  scene.add(gridLines);
+
+  let mouseX = 0, mouseY = 0;
+  window.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+    points.rotation.y += 0.0009;
+    points.rotation.x += 0.0003;
+    camera.position.x += (mouseX * 6 - camera.position.x) * 0.03;
+    camera.position.y += (-mouseY * 6 - camera.position.y) * 0.03;
+    camera.lookAt(scene.position);
+    gridLines.rotation.y -= 0.0004;
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+})();
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+
+</body>
+</html>

@@ -32,7 +32,8 @@ def index(request):
         about_flag = response["flag"].get("description", "no description available")
 
         languages = response["languages"][0]
-        currency = response["currencies"]
+        print(languages)
+        currency = response["currencies"][0]
         print(currency)
         # coatOfArms = response["coatOfArms"].get("png", static("not-found.avif"))
         population = response["population"]
