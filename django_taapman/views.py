@@ -2,45 +2,52 @@ from django.shortcuts import render
 from django.templatetags.static import static
 from taapman_viewer.models import userInfo
 import requests
-
+import os
+from dotenv import load_dotenv;
+load_dotenv()
 
 def index(request):
     place = request.POST.get("place")
     try:
         url = f"https://nominatim.openstreetmap.org/search?q={place}&format=json"
         headers = {
-            "User-Agent": "django_tapman (contact@nitish.com)",
+            "User-Agent": "django_tapman (info@django.com)",
             "Accept-Language": "en",
         }
         response = requests.get(url, headers=headers).json()[0]
-        lat = response["lat"]
-        lon = response["lon"]
-        full_address = response["display_name"]
-        name = response["name"]
-        address_type = response["addresstype"]
-        country = full_address.split(",")[-1].strip()
+        if response!='':
+            lat =response['lat']
+            lon = response['lon']
+            full_address = response['display_name']
+            name = response['name']
+            address_type = response['addresstype']
+            country = full_address.split(",")[-1].strip()  
+        else:
+            lat=''
+            lon=''
+            full_address=''
+            name=''
+            address_type=''
+            countries=os.getenv('COUNTRIES')
+            if place in countries:
+                country=place
+            else:
+                country='nepal' 
         url = f"https://api.restcountries.com/countries/v5/names.common/{country}"
+        token=os.getenv('TOKEN') 
         headers1 = {
             "User-Agent": "django_tapman (contact@nitish.com)",
             "Accept-Language": "en",
-            "Authorization": "bearer rc_live_427bccdcde4348aeab5fee0a3887b53e",
-        }
+            "Authorization": f"bearer {token}",
+        } 
         response = requests.get(url, headers=headers1).json()["data"]["objects"][0]
-
         flag = response["flag"].get("url_png", static("not-found.avif"))
-
         about_flag = response["flag"].get("description", "no description available")
-
-        languages = response["languages"][0]
-        print(languages)
-        currency = response["currencies"][0]
-        print(currency)
-        # coatOfArms = response["coatOfArms"].get("png", static("not-found.avif"))
+        languages = response["languages"][0] 
+        currency = response["currencies"][0] 
         population = response["population"]
-        capital = response["capitals"][0]["name"]
-        print(capital)
-        land_locked = response["descriptions"]["short"]
-        print(land_locked)
+        capital = response["capitals"][0]["name"] 
+        land_locked = response["descriptions"]["short"] 
         url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&hourly=temperature_2m"
         response = requests.get(url, headers=headers).json()
         date_x = []
