@@ -2,10 +2,12 @@ from django.shortcuts import render
 from django.templatetags.static import static
 from taapman_viewer.models import userInfo
 import requests
+from pathlib import Path
 import os
-from dotenv import load_dotenv;
-load_dotenv()
-
+from dotenv import load_dotenv
+BASE_DIR = Path(__file__).resolve().parent
+load_dotenv(BASE_DIR/'.env')
+print(BASE_DIR)
 def index(request):
     place = request.POST.get("place")
     try:
@@ -34,7 +36,7 @@ def index(request):
             else:
                 country='nepal' 
         url = f"https://api.restcountries.com/countries/v5/names.common/{country}"
-        token=os.getenv('TOKEN') 
+        token=os.getenv('TOKEN')
         headers1 = {
             "User-Agent": "django_tapman (contact@nitish.com)",
             "Accept-Language": "en",
